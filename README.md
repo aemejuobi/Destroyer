@@ -1,2 +1,3 @@
-# destroyer
-Destroys terraform IaC infrastructure
+# Destroyer
+
+    Destroys terraform IaC infrastructure
