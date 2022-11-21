@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-        stage('Plan/Validate'){
+        stage('Apply/Plan/Validate'){
             steps {
                 dir('delete'){
                     withCredentials([
@@ -26,6 +26,7 @@ pipeline {
                     string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
                         
                         withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
+                            sh 'terraform apply -auto-approve'
                             sh 'terraform plan'
                             sh 'terraform validate'
                         }
