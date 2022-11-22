@@ -17,7 +17,8 @@ resource "aws_connect_instance" "practice_instance" {
     inbound_calls_enabled    = true
     instance_alias           = "chocolate-connect"
     outbound_calls_enabled   = true
-# timeouts {
-#     delete = "2m"
-# }
+
+    # timeouts {
+    #     delete = "2m"
+    # }
 }
