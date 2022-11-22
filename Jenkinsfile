@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Init'){
             steps {
-                dir('~./var/jenkins_home/workspace/aws-connect/connect_infrastructure') {
+                dir('connect_infrastructure') {
                     withCredentials([
                     string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
                     string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
@@ -18,26 +18,26 @@ pipeline {
             }
         }
 
-        stage('Plan/Validate'){
-            steps {
-                dir('~./var/jenkins_home/workspace/aws-connect/connect_infrastructure'){
-                    withCredentials([
-                    string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
-                    string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
+        // stage('Plan/Validate'){
+        //     steps {
+        //         dir('connect_infrastructure'){
+        //             withCredentials([
+        //             string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
+        //             string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
                         
-                        withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
-                            sh 'terraform plan'
-                            sh 'terraform validate'
-                        }
-                    }
-                }
+        //                 withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
+        //                     sh 'terraform plan'
+        //                     sh 'terraform validate'
+        //                 }
+        //             }
+        //         }
                 
-            }
-        }
+        //     }
+        // }
 
         stage('Hakai'){
             steps {
-                dir('~./var/jenkins_home/workspace/aws-connect/connect_infrastructure'){
+                dir('connect_infrastructure'){
                     withCredentials([
                     string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
                     string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
