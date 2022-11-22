@@ -2,40 +2,8 @@ pipeline {
     agent any
 
     stages {
-        // stage('Init'){
-        //     steps {
-        //         dir('../aws-connect/connect_infrastructure') {
-        //             withCredentials([
-        //             string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
-        //             string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
-                        
-        //                 withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
-        //                     sh 'terraform init'
-        //                 }
-        //             }
-        //         }
-                
-        //     }
-        // }
-
-        // stage('Plan/Validate'){
-        //     steps {
-        //         dir('../aws-connect/connect_infrastructure'){
-        //             withCredentials([
-        //             string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
-        //             string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
-                        
-        //                 withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
-        //                     sh 'terraform plan'
-        //                     sh 'terraform validate'
-        //                 }
-        //             }
-        //         }
-                
-        //     }
-        // }
-
-        stage('Hakai'){
+        
+        stage('Hakai(Destroy)'){
             steps {
                 dir('../aws-connect/connect_infrastructure'){
                     withCredentials([
@@ -43,7 +11,6 @@ pipeline {
                     string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
                         withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
                             sh 'terraform destroy -auto-approve'
-                            // -target aws_connect_instance.practice_instance 
                         }
                     }
                 }
