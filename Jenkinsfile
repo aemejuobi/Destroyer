@@ -2,38 +2,38 @@ pipeline {
     agent any
 
     stages {
-        stage('Init'){
-            steps {
-                dir('delete') {
-                    withCredentials([
-                    string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
-                    string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
-                        
-                        withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
-                            sh 'terraform init'
-                        }
-                    }
-                }
-                
-            }
-        }
-
-        // stage('Plan/Validate'){
+        // stage('Init'){
         //     steps {
-        //         dir('delete'){
+        //         dir('~./var/jenkins_home/workspace/aws-connect/connect_infrastructure') {
         //             withCredentials([
         //             string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
         //             string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
                         
         //                 withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
-        //                     sh 'terraform plan'
-        //                     sh 'terraform validate'
+        //                     sh 'terraform init'
         //                 }
         //             }
         //         }
                 
         //     }
         // }
+
+        stage('Plan/Validate'){
+            steps {
+                dir('~./var/jenkins_home/workspace/aws-connect/connect_infrastructure'){
+                    withCredentials([
+                    string(credentialsId: 'aws-jenkins-secret-key-id', variable: 'key_id'),
+                    string(credentialsId: 'aws-jenkins-secret-access-key', variable: 'access_key')]){
+                        
+                        withEnv(['KEY_ID=${key_id}', 'ACCESS_KEY=${access_key}']){
+                            sh 'terraform plan'
+                            sh 'terraform validate'
+                        }
+                    }
+                }
+                
+            }
+        }
 
         stage('Hakai'){
             steps {
